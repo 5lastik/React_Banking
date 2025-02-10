@@ -21,15 +21,7 @@ jobs:
              npm install --save-dev @babel/plugin-proposal-private-property-in-object
              npm run build
 
-      - name: Deploy with Ansible
-        uses: appleboy/ssh-action@v0.1.0
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /var/www/react_banking
-            git pull origin deploy
-            npm install
-            npm run build
-            serve -s build -l 3100
+      - name: Run Ansible playbook
+        run: ansible-playbook -i inventory.ini deploy.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
