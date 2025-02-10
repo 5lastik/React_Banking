@@ -31,12 +31,12 @@
         - Install npm packages
 
     - name: Build the React application
-      command: npm run build
+      command: npm install && npm run build
       args:
         chdir: "{{ app_dir }}"  # Путь к папке с приложением
 
     - name: Start the React application
-      command: npm start
+      command: npm start  -- --port 3100
       args:
         chdir: "{{ app_dir }}"  # Путь к папке с приложением
       async: 10  # Запускает команду асинхронно
