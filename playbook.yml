@@ -1,1 +1,49 @@
+- name: Deploy React Banking Application
+  hosts: webservers
+  become: yes
+  vars:
+    app_name: react_banking
+    app_repo: https://github.com/5lastik/React_Banking.git
+    app_dir: /var/www/{{ app_name }}
+    node_version: "14.x"
 
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - git
+          - curl
+          - npm
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install Node.js
+      apt:
+        name: nodejs
+        state: present
+
+    - name: Clone the React application from Git
+      git:
+        repo: "{{ app_repo }}"
+        dest: "{{ app_dir }}"
+        version: deploy  # Укажите ветку deploy
+      notify:
+        - Install npm packages
+
+    - name: Build the React application
+      command: npm run build
+      args:
+        chdir: "{{ app_dir }}"  # Путь к папке с приложением
+
+    - name: Start the React application
+      command: npm start
+      args:
+        chdir: "{{ app_dir }}"  # Путь к папке с приложением
+      async: 10  # Запускает команду асинхронно
+      poll: 0   # Не дожидается завершения команды
+
+  handlers:
+    - name: Install npm packages
+      command: npm install
+      args:
+        chdir: "{{ app_dir }}"  # Путь к папке с приложением
