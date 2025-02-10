@@ -16,12 +16,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
 
-      - name: Install dependencies
+      - name: Build the project
         run: npm install
              npm install --save-dev @babel/plugin-proposal-private-property-in-object
-
-      - name: Build the project
-        run: npm run build
+             npm run build
 
       - name: Deploy with Ansible
         uses: appleboy/ssh-action@v0.1.0
