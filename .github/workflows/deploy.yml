@@ -1,0 +1,22 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - deploy  # Замените на вашу основную ветку
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+
+      - name: Run Ansible playbook
+        run: ansible-playbook -i inventory.ini playbook.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
