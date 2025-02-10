@@ -29,19 +29,14 @@
         version: deploy  # Укажите ветку deploy
       notify:
         - Install npm packages
-
-    - name: Install npm packages
-      command: npm install
-      args:
-        chdir: "{{ app_dir }}"  # Путь к папке с приложением
-    
+        
     - name: Build the React application
       command: npm run build
       args:
         chdir: "{{ app_dir }}"  # Путь к папке с приложением
 
     - name: Start the React application
-      command: npm start  -- --port 3100
+      command: PORT=3100 npm start
       args:
         chdir: "{{ app_dir }}"  # Путь к папке с приложением
       async: 10  # Запускает команду асинхронно
