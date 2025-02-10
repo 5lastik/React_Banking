@@ -22,6 +22,6 @@ jobs:
              npm run build
 
       - name: Run Ansible playbook
-        run: ansible-playbook -i inventory.ini deploy.yml
+        run: ansible-playbook -i inventory.ini playbook.yml
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
