@@ -30,8 +30,13 @@
       notify:
         - Install npm packages
 
+    - name: Install npm packages
+      command: npm install
+      args:
+        chdir: "{{ app_dir }}"  # Путь к папке с приложением
+    
     - name: Build the React application
-      command: npm install && npm run build
+      command: npm run build
       args:
         chdir: "{{ app_dir }}"  # Путь к папке с приложением
 
